@@ -16,7 +16,7 @@ include(CMakeDependentOption)
 include(GNUInstallDirs)
 
 option(RUNNER_MATH "Math operations support" ON)
-option(RUNNER_VBOX "Virtual Box support" ON)
+option(RUNNER_VBOX "Virtual Box support" OFF)
 option(UPDATE_TRANSLATIONS "Update source translation translations/*.ts files" OFF)
 option(USE_MENU_CACHE "Use libmenu-cache from LXDE to generate the app menu" OFF)
 cmake_dependent_option(RUNNER_VBOX_HEADLESS

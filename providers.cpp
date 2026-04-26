@@ -802,34 +802,20 @@ public:
     {
         try
         {
-            // use the system's locale instead of the "C"
-            const std::locale loc{""};
-            auto && numpunct = std::use_facet<std::numpunct<mu::char_type>>(loc);
-            SetDecSep(numpunct.decimal_point());
-            SetThousandsSep(0); // means no grouping for muparser API
-
-            const char arg_sep = GetArgSep();
-            if (numpunct.decimal_point() == arg_sep)
-            {
-                if (arg_sep == ',')
-                    SetArgSep(';');
-                else
-                    SetArgSep(',');
-            }
+            SetArgSep(';');
+            SetDecSep('.');
+            SetThousandsSep(',');
         } catch (const std::runtime_error & e)
         {
             qWarning().noquote() << "Unable to set locale for Math, " << e.what();
         }
-
-        // do not group in output
-        mLocale.setNumberOptions(mLocale.numberOptions() | QLocale::OmitGroupSeparator);
     }
 
 
     QString evalString(const QString & s)
     {
         SetExpr(s.toStdString());
-        return mLocale.toString(Eval()); // can throw
+        return mLocale.toString(Eval(), 'g', 9); // can throw
     }
 
 private:
@@ -864,7 +850,7 @@ bool MathItem::run() const
     int posResult = mTitle.indexOf(QL1C('='));
     if (posResult > -1 && posResult < mTitle.size() - 1)
     {
-        QApplication::clipboard()->setText(mTitle.mid(posResult + 1));
+        QApplication::clipboard()->setText(mTitle.mid(posResult + 1).remove(QL1C(',')));
         return true;
     }
     return false;
@@ -878,7 +864,7 @@ bool MathItem::compare(const QRegularExpression &regExp) const
 {
     QString s = regExp.pattern().trimmed();
 
-    bool is_math = false;
+    bool is_math = 2 < s.size() && (s.at(0).isDigit() || QStringLiteral("(-+.").contains(s.at(0)));
     if (s.startsWith(QLatin1Char('=')))
     {
         is_math = true;
