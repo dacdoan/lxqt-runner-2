@@ -1,0 +1,5 @@
+sudo apt install debhelper-compat layer-shell-qt libkf6windowsystem-dev liblayershellqtinterface-dev liblxqt-globalkeys-ui2-dev liblxqt-globalkeys2-dev liblxqt2-dev libmuparser-dev libx11-dev qt6-svg-dev qt6-wayland-dev
+
+cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_C_FLAGS="-march=broadwell" -DCMAKE_CXX_FLAGS="-march=broadwell"
+
+cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_C_FLAGS="-march=native" -DCMAKE_CXX_FLAGS="-march=native"
