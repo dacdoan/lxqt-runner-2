@@ -864,7 +864,7 @@ bool MathItem::compare(const QRegularExpression &regExp) const
 {
     QString s = regExp.pattern().trimmed();
 
-    bool is_math = 2 < s.size() && (s.at(0).isDigit() || QStringLiteral("(-+.").contains(s.at(0)));
+    bool is_math = 2 < s.size() && (s.at(0).isDigit() || QStringLiteral("(-.").contains(s.at(0)));
     if (s.startsWith(QLatin1Char('=')))
     {
         is_math = true;
